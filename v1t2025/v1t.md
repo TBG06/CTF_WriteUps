@@ -159,13 +159,36 @@ https://wikileaks.org/wiki/Iraq.xls
     v1t{d4ng_u_kn0w_pyth0n_d3bugg}
 
 ## Snail Delivery
+- The binary performs XOR-based validation on user input against a hardcoded ciphertext. If the input passes, it generates the final flag through another XOR operation.
 - Used https://dogbolt.org/ to decompile the given file.
+- The validation loop checks: `Input[i] XOR Key2[i % 6] == Ciphertext[i]`
+- The ciphertext is 39 bytes stored at `local_178[0] (indices 0x00–0x26)`
+- Key2 is 6 bytes stored at `local_178[0x27–0x2C] = [0x12, 0x45, 0x78, 0xAB, 0xCD, 0xEF]`
+- To satisfy the validation condition, the input must be:
+```
+Input[i] = Ciphertext[i] XOR Key2[i % 6].
+This reconstructs the correct input that passes the check.
+```
+
+- After validation, the program generates the flag using another XOR operation:
+`Flag[i] = Input[i] XOR Key1[i % 3]`
+
+- Key1 is derived from `local_c = 0x10000 and stored at local_178[0x2D–0x2F] as [0x01, 0x00, 0x00]`
+
+- The final flag extraction formula becomes:
+`Flag[i] = (Ciphertext[i] XOR Key2[i % 6]) XOR Key1[i % 3]`
+
+- Applying both XOR operations gives the required flag.
+
+### Flag:
+    v1t{sn4il_d3l1v3ry_sl0w_4f_36420762ab}
+
 
 ## Duck RPG
 - Decompiled the result.bat and found that it requires expected format: fragment + SHA256 hash
 - Identified original fragment as frag123 needing replacement
 - Found correct fragment: unlocktheduck
-- Preserved original game hash: 8392dcc7b6fdebd5a70211c1e21497a553b31f2c70408b772c4a313615df7b60
+- Preserved original game hash: `8392dcc7b6fdebd5a70211c1e21497a553b31f2c70408b772c4a313615df7b60`
 - Executed: result.bat unlocktheduck [original-hash]
 - Got the required flag.
 - *Clearly did not know how to solve the challenge had to use AI to a extreme extent*
@@ -253,6 +276,7 @@ v1t{fr_gng_use_AI_t0_s0lv3_ctf}
 
 ## Blank
 - The image looks white on the surface level but when we check the bit-plane images, the hidden text became visible in the Red channel, bit 0 (LSB) image. 
+
 ![alt text](images/whiteRlsb.png)
 
 ### Flag:
@@ -316,3 +340,22 @@ p64(0x40128c) — replaces the return address with duck()
 
 ### Flag:
     v1t{w4ddl3r_3x1t5_4e4d6c332b6fe62a63afe56171fd3725}
+
+
+# Duck
+
+## Rules
+- Went to the rule page adn found the flag at the end of the page.
+### Flag:
+    v1t{yes_i_will_not_ddos_the_duck}
+
+## Duck Robots
+- Found the flag in this link : https://ctf.v1t.site/robots.txt
+### Flag:
+    v1t{ducks_are_g0v_r0b0ts}
+
+## Feedback
+- Filled the feedback link and found the flag at the end.
+
+## Shout Out
+- Just put v1t{w} direct flag.
